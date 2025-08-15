@@ -8,13 +8,14 @@ from dotenv import load_dotenv, set_key
 import pandas as pd
 import os
 import csv
-import openai
+from openai import OpenAI
 import time
 import altair as alt
 
 
 load_dotenv('.env')
 openai.api_key = os.environ.get('OPENAI_API_KEY')
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
 if not openai.api_key:
     openai.api_key = st.text_input("Enter OPENAI_API_KEY API key")
@@ -157,7 +158,7 @@ def get_ai_response(text_input):
     messages = [{'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': text_input+persona_text}]
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=MODEL,
         messages=messages,
         temperature=temperature,
