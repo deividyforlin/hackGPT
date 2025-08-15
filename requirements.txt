@@ -16,3 +16,5 @@ ipywidgets
 inquirer
 prettytable
 jira
+streamlit
+openai>=1.0.0
