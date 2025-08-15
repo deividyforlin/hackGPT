@@ -8,9 +8,12 @@ from dotenv import load_dotenv, set_key
 import pandas as pd
 import os
 import csv
-import openai
+from openai import OpenAI
 import time
 import altair as alt
+
+# Configurar cliente OpenAI
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 
 load_dotenv('.env')
@@ -157,7 +160,7 @@ def get_ai_response(text_input):
     messages = [{'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': text_input+persona_text}]
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=MODEL,
         messages=messages,
         temperature=temperature,
